@@ -281,9 +281,65 @@
       const counts = tally(answers);
       const key = decideResult(counts); // e.g., 'a', 'b', 'a+b', 'all'
       renderResult(key);
+      sendToSheet(key, counts, answers); // answers é o objeto retornado por collectAnswers()
     });
 
     document.getElementById('resetBtn').addEventListener('click', resetQuiz);
-  </script>
+
+    // Cole isto no final do seu script (https://script.google.com/macros/s/AKfycbwyxoEMpWmNGn-M9x9kD2FsX7kRJTy3KUIHYRH9sfY-SQizd8QLA3IBKf1bmZ7wBBM/exec)
+    function sendToSheet(resultKey, counts, answers) {
+    const payload = { result: resultKey, counts: counts, answers: answers };
+  
+    const WEB_APP_URL = 'COLE_AQUI_A_SUA_URL_DO_WEBAPP_EXEC';
+  
+    // tentativa 1: enviar como JSON (behavior normal)
+    fetch(WEB_APP_URL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    })
+    .then(r => r.json())
+    .then(j => console.log('Apps Script respondeu (json):', j))
+    .catch(err => {
+      console.warn('Falha no POST JSON, tentando POST text/plain (workaround CORS):', err);
+      // tentativa 2: header text/plain para evitar preflight
+      fetch(WEB_APP_URL, {
+        method: 'POST',
+        headers: {'Content-Type': 'text/plain;charset=utf-8'},
+        body: JSON.stringify(payload)
+      })
+      .then(r => r.json())
+      .then(j => console.log('Apps Script respondeu (text):', j))
+      .catch(err2 => {
+        console.error('Falha ao enviar resultados para o Apps Script:', err2);
+        // fallback: enviar via GET (não recomendado para produção — expõe dados na URL)
+        try {
+          const q = encodeURIComponent(JSON.stringify(payload));
+          const url = WEB_APP_URL + '?payload=' + q;
+          fetch(url).then(r=>r.json()).then(j=>console.log('Apps Script respondeu (GET fallback):', j)).catch(()=>{});
+        } catch(e){}
+      });
+    });
+  }
+</script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 </body>
 </html>
+
