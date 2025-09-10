@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quiz Literário — Descubra seu perfil</title>
+  <style>
+    :root{
+      --bg:#0f172a; --card:#0b1220; --accent:#7dd3fc;
+      --muted:#94a3b8; --text:#e6eef8;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;background:linear-gradient(180deg,#071021 0%, #071827 100%);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px}
+    .container{width:100%;max-width:900px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:22px;box-shadow:0 10px 30px rgba(2,6,23,0.6);}
+    h1{margin:0 0 6px;font-size:20px}
+    p.lead{margin:0 0 18px;color:var(--muted)}
+    .question{background:rgba(255,255,255,0.02);padding:14px;border-radius:8px;margin-bottom:12px}
+    .q-title{font-weight:600;margin-bottom:6px}
+    .options{display:flex;flex-direction:column;gap:8px}
+    label.option{display:flex;align-items:flex-start;gap:10px;background:rgba(255,255,255,0.01);padding:10px;border-radius:8px;cursor:pointer;border:1px solid transparent}
+    label.option:hover{border-color:rgba(125,211,252,0.12)}
+    input[type="radio"]{margin-top:4px}
+    .actions{display:flex;gap:10px;align-items:center;margin-top:12px}
+    button{background:var(--accent);border:0;padding:10px 14px;border-radius:8px;color:#042028;font-weight:700;cursor:pointer}
+    button.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text)}
+    .result{margin-top:18px;padding:14px;border-radius:10px;background:linear-gradient(180deg, rgba(13,18,26,0.6), rgba(8,12,18,0.5));display:none}
+    .result h2{margin:0 0 6px}
+    .muted{color:var(--muted);font-size:14px}
+    .list{margin:8px 0 0;padding-left:18px}
+    .hint{font-size:13px;color:var(--muted);margin-top:8px}
+    @media (max-width:600px){
+      .container{padding:16px}
+      label.option{font-size:14px}
+    }
+  </style>
+</head>
+<body>
+  <main class="container" role="main">
+    <h1>Quiz Literário — Descubra seu perfil</h1>
+    <p class="lead">Responda rapidamente. No final o sistema soma as letras (a / b / c) e mostra seu perfil e recomendações automaticamente.</p>
+
+    <form id="quizForm">
+      <!-- Perguntas: cada grupo radio tem name diferente (q1..q7). value = 'a'|'b'|'c' -->
+      <div class="question" id="q1">
+        <div class="q-title">1) Qual é a sua atitude em relação ao desconhecido?</div>
+        <div class="options">
+          <label class="option"><input type="radio" name="q1" value="b"> <strong>b)</strong> Você é cauteloso e prefere evitar o desconhecido até ter mais informações.</label>
+          <label class="option"><input type="radio" name="q1" value="a"> <strong>a)</strong> Você é um aventureiro que adora explorar o desconhecido e descobrir segredos.</label>
+          <label class="option"><input type="radio" name="q1" value="c"> <strong>c)</strong> Você é pragmático e lida com o desconhecido de forma lógica e racional.</label>
+        </div>
+      </div>
+
+      <div class="question" id="q2">
+        <div class="q-title">2) Como você se sente em relação à complexidade?</div>
+        <div class="options">
+          <label class="option"><input type="radio" name="q2" value="a"> <strong>a)</strong> Você adora mergulhar em histórias complexas e detalhadas, com múltiplas camadas de significado.</label>
+          <label class="option"><input type="radio" name="q2" value="b"> <strong>b)</strong> Você prefere histórias simples e diretas, sem muitas complicações ou reviravoltas.</label>
+          <label class="option"><input type="radio" name="q2" value="c"> <strong>c)</strong> Você gosta de uma mistura de complexidade e simplicidade, com momentos de ação e reflexão.</label>
+        </div>
+      </div>
+
+      <div class="question" id="q3">
+        <div class="q-title">3) Qual é o seu tom de humor favorito?</div>
+        <div class="options">
+          <label class="option"><input type="radio" name="q3" value="a"> <strong>a)</strong> Sarcasmo e ironia, com um toque de humor ácido e crítico.</label>
+          <label class="option"><input type="radio" name="q3" value="b"> <strong>b)</strong> Humor absurdo e surreal, com situações ridículas e inesperadas.</label>
+          <label class="option"><input type="radio" name="q3" value="c"> <strong>c)</strong> Humor inteligente e espirituoso, com diálogos rápidos e perspicazes.</label>
+        </div>
+      </div>
+
+      <div class="question" id="q4">
+        <div class="q-title">4) Como você se sente em relação à introspecção?</div>
+        <div class="options">
+          <label class="option"><input type="radio" name="q4" value="a"> <strong>a)</strong> Você adora explorar os pensamentos e sentimentos dos personagens, e entender suas motivações e conflitos.</label>
+          <label class="option"><input type="radio" name="q4" value="b"> <strong>b)</strong> Você prefere histórias que se concentram em ação e aventura, com personagens que agem e reagem.</label>
+          <label class="option"><input type="radio" name="q4" value="c"> <strong>c)</strong> Você gosta de uma mistura de introspecção e ação, com personagens que pensam e agem.</label>
+        </div>
+      </div>
+
+      <div class="question" id="q5">
+        <div class="q-title">5) Qual é a sua opinião sobre a moralidade?</div>
+        <div class="options">
+          <label class="option"><input type="radio" name="q5" value="a"> <strong>a)</strong> Você acredita que a moralidade é relativa e depende do contexto e das circunstâncias.</label>
+          <label class="option"><input type="radio" name="q5" value="b"> <strong>b)</strong> Você acredita que a moralidade é absoluta e não depende do contexto, com regras e princípios claros.</label>
+          <label class="option"><input type="radio" name="q5" value="c"> <strong>c)</strong> Você prefere não julgar a moralidade dos personagens, e deixar que o leitor tire suas próprias conclusões.</label>
+        </div>
+      </div>
+
+      <div class="question" id="q6">
+        <div class="q-title">6) Qual o motivo principal da sua leitura?</div>
+        <div class="options">
+          <label class="option"><input type="radio" name="q6" value="a"> <strong>a)</strong> Para me conhecer.</label>
+          <label class="option"><input type="radio" name="q6" value="b"> <strong>b)</strong> Para sentir emoções.</label>
+          <label class="option"><input type="radio" name="q6" value="c"> <strong>c)</strong> Para fugir da realidade entediante do dia a dia.</label>
+        </div>
+      </div>
+
+      <div class="question" id="q7">
+        <div class="q-title">7) Qual tema você mais gosta de ler sobre?</div>
+        <div class="options">
+          <label class="option"><input type="radio" name="q7" value="a"> <strong>a)</strong> Autoconhecimento — quando descubro mais sobre mim mesmo(a) e leio dicas e conselhos para a minha vida.</label>
+          <label class="option"><input type="radio" name="q7" value="b"> <strong>b)</strong> Ficção — descubro mundos mágicos ou acontecimentos científicos que me permitem sair da realidade.</label>
+          <label class="option"><input type="radio" name="q7" value="c"> <strong>c)</strong> Romance — gosto de ler sobre acontecimentos e experiências de outras pessoas fictícias, com histórias que me prendam e transmitam emoções.</label>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="button" id="submitBtn">Ver meu resultado</button>
+        <button type="button" id="resetBtn" class="secondary">Refazer</button>
+        <span class="hint">Todas as perguntas são obrigatórias.</span>
+      </div>
+    </form>
+
+    <section id="result" class="result" aria-live="polite"></section>
+  </main>
+
+  <script>
+    // Mapeamento dos textos de resultado (conforme você enviou)
+    const RESULTS = {
+      a: {
+        title: "Perfil: Introspectivo e analítico",
+        genres: "Ficção filosófica, romance psicológico, literatura experimental",
+        books: [
+          '"O Processo" — Franz Kafka',
+          '"A Náusea" — Jean-Paul Sartre',
+          '"A Morte de Virgílio" — Hermann Broch'
+        ],
+        authors: ["Franz Kafka","Jean-Paul Sartre","Hermann Broch","Virginia Woolf","James Joyce"]
+      },
+      b: {
+        title: "Perfil: Aventureiro e dinâmico",
+        genres: "Ficção de aventura, fantasia, ficção científica",
+        books: [
+          '"O Senhor dos Anéis" — J.R.R. Tolkien',
+          '"A Fundação" — Isaac Asimov',
+          '"A Busca pelo Santo Graal" — T.H. White'
+        ],
+        authors:["J.R.R. Tolkien","Isaac Asimov","George R.R. Martin","Neil Gaiman","Patrick Rothfuss"]
+      },
+      c: {
+        title: "Perfil: Romântico e emocional",
+        genres: "Romance, ficção sentimental, literatura feminina",
+        books: [
+          '"Orgulho e Preconceito" — Jane Austen',
+          '"A Dama das Camélias" — Alexandre Dumas Filho',
+          '"O Amor nos Tempos do Cólera" — Gabriel García Márquez'
+        ],
+        authors:["Jane Austen","Alexandre Dumas Filho","Gabriel García Márquez","Nicholas Sparks","Colleen Hoover"]
+      },
+      "a+b": {
+        title: "Perfil: Introspectivo e aventureiro",
+        genres: "Ficção de mistério, thriller psicológico",
+        books: [
+          '"O Silêncio dos Inocentes" — Thomas Harris',
+          '"A Garota no Trem" — Paula Hawkins',
+          '"O Psicólogo" — John Katzenbach'
+        ],
+        authors:["Thomas Harris","Paula Hawkins","John Katzenbach","Gillian Flynn","Tana French"]
+      },
+      "a+c": {
+        title: "Perfil: Introspectivo e romântico",
+        genres: "Romance psicológico, ficção literária",
+        books: [
+          '"A Morte de Virgílio" — Hermann Broch',
+          '"O Livro de Desassossego" — Fernando Pessoa',
+          '"A Casa da Memória" — Jonathan Safran Foer'
+        ],
+        authors:["Hermann Broch","Fernando Pessoa","Jonathan Safran Foer","David Mitchell","Zadie Smith"]
+      },
+      "b+c": {
+        title: "Perfil: Aventureiro e romântico",
+        genres: "Ficção de aventura romântica, fantasia romântica",
+        books: [
+          '"O Nome do Vento" — Patrick Rothfuss',
+          '"A Era dos Impérios" — Eric Hobsbawm',
+          '"O Conde de Monte Cristo" — Alexandre Dumas'
+        ],
+        authors:["Patrick Rothfuss","Eric Hobsbawm","Alexandre Dumas","Ken Follett","Sharon Kay Penman"]
+      },
+      "all": {
+        title: "Perfil: Equilíbrio entre introspecção, aventura e romantismo",
+        genres: "Mistura variada — literária, filosófica, romântica e de aventura",
+        books: [
+          '"O Processo" — Franz Kafka',
+          '"O Senhor dos Anéis" — J.R.R. Tolkien',
+          '"Orgulho e Preconceito" — Jane Austen'
+        ],
+        authors:["Franz Kafka","J.R.R. Tolkien","Jane Austen","Isaac Asimov","Gabriel García Márquez"]
+      }
+    };
+
+    function collectAnswers() {
+      const form = document.getElementById('quizForm');
+      const data = {};
+      for (let i = 1; i <= 7; i++) {
+        const qName = 'q' + i;
+        const val = form[qName] && form[qName].value;
+        data[qName] = val || null;
+      }
+      return data;
+    }
+
+    function validateAllAnswered(answers) {
+      const missing = [];
+      Object.keys(answers).forEach(k => {
+        if (!answers[k]) missing.push(k);
+      });
+      return { ok: missing.length === 0, missing };
+    }
+
+    function tally(answers) {
+      // count a/b/c
+      const counts = { a:0, b:0, c:0 };
+      Object.values(answers).forEach(v => {
+        if (v === 'a' || v === 'b' || v === 'c') counts[v]++;
+      });
+      return counts;
+    }
+
+    function decideResult(counts) {
+      // Determine highest count(s)
+      const max = Math.max(counts.a, counts.b, counts.c);
+      const winners = [];
+      if (counts.a === max) winners.push('a');
+      if (counts.b === max) winners.push('b');
+      if (counts.c === max) winners.push('c');
+
+      if (winners.length === 1) {
+        return winners[0];
+      } else if (winners.length === 2) {
+        // order keys to match mapping (a+b, a+c, b+c)
+        return winners.sort().join('+');
+      } else {
+        // all three tied
+        return 'all';
+      }
+    }
+
+    function renderResult(key) {
+      const res = RESULTS[key];
+      const container = document.getElementById('result');
+      container.innerHTML = `
+        <h2>${res.title}</h2>
+        <div class="muted">Gêneros literários favoritos: ${res.genres}</div>
+        <div style="margin-top:10px">
+          <strong>Indicações — Livros:</strong>
+          <ul class="list">${res.books.map(b => `<li>${b}</li>`).join('')}</ul>
+        </div>
+        <div style="margin-top:10px">
+          <strong>Autores recomendados:</strong>
+          <ul class="list">${res.authors.map(a => `<li>${a}</li>`).join('')}</ul>
+        </div>
+        <div style="margin-top:12px">
+          <button id="retake" class="secondary">Refazer o quiz</button>
+        </div>
+      `;
+      container.style.display = 'block';
+      document.getElementById('retake').addEventListener('click', resetQuiz);
+      // scroll to result
+      container.scrollIntoView({behavior:'smooth'});
+    }
+
+    function resetQuiz() {
+      document.getElementById('quizForm').reset();
+      const container = document.getElementById('result');
+      container.style.display = 'none';
+      container.innerHTML = '';
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    document.getElementById('submitBtn').addEventListener('click', () => {
+      const answers = collectAnswers();
+      const valid = validateAllAnswered(answers);
+      if (!valid.ok) {
+        alert('Por favor responda todas as perguntas antes de ver seu resultado.');
+        // highlight first missing
+        const firstMissing = valid.missing[0];
+        document.getElementById(firstMissing).scrollIntoView({behavior:'smooth'});
+        return;
+      }
+      const counts = tally(answers);
+      const key = decideResult(counts); // e.g., 'a', 'b', 'a+b', 'all'
+      renderResult(key);
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', resetQuiz);
+  </script>
+</body>
+</html>
